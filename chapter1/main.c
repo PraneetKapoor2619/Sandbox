@@ -1,22 +1,13 @@
 #include<stdio.h>
 
 /*
-celsius to fahrenheit converter
+fahrenheit to celsius converter
 */
 int main(int argc, char **argv)
 {
-	float fahr, celsius;
-	int lower, upper, step;
-	lower = -100;
-	upper = 100;
-	step = 20;
-	celsius = lower;
-	printf("%3c\t%6c\n", 'C', 'F');
-	while(celsius <= upper){
-		fahr = (9.0 / 5.0) * celsius;
-		fahr += 32;
-		printf("%3.0f\t%6.1f\n", celsius, fahr);
-		celsius += step;
-	}
+	int fahr;
+	
+	for(fahr = 0; fahr <= 300; fahr = fahr + 20)
+		printf("%3d\t%6.1f\n", fahr, (5.0 / 9.0) * (fahr - 32));
 	return 0;
 }
