@@ -11,6 +11,7 @@ int main(int argc, char **argv)
 	upper = 300;
 	step = 20;
 	fahr = lower;
+	printf("Fahr\tCelsius\n");
 	while(fahr <= upper){
 		celsius = 5 * (fahr - 32) / 9;
 		printf("%3.0f\t%6.1f\n", fahr, celsius);
