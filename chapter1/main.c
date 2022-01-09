@@ -1,15 +1,24 @@
 #include<stdio.h>
 
-/*count lines in input*/
+/*count blanks, tabs, newlines in input*/
 int main(int argc, char **argv)
 {
-	int c, nl;
+	int c, nb, nt, nl;
+	nb = 0;
+	nt = 0;
 	nl = 0;
 	
-	while((c = getchar()) != EOF)
+	while((c = getchar()) != EOF){
+		if(c == ' ')
+			++nb;
+		if(c == '\t')
+			++nt;
 		if(c == '\n')
 			++nl;
-	
-	printf("%d\n", nl);
+	}
+	printf("No. of blanks = %d\n"
+			"No. of tabs = %d\n"
+			"No. of newlines = %d\n"
+			, nb, nt, nl);
 	return 0;
 }
