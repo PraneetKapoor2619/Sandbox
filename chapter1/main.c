@@ -3,10 +3,9 @@
 int main(int argc, char **argv)
 {
 	int c;
-	c = getchar();
-	while(c != EOF){		/*EOF -> Unix Ctrl + D, Windows Ctrl + Z*/
+	
+	while((c = getchar()) != EOF){		/*EOF -> Unix Ctrl + D, Windows Ctrl + Z*/
 		putchar(c);
-		c = getchar();
 	}
 	return 0;
 }
