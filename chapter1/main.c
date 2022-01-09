@@ -12,14 +12,17 @@ int main(int argc, char **argv)
 	nl = nw = nc = 0;
 	while((c = getchar()) != EOF){
 		++nc;
-		if(c == ' ' || c == '\t' || c == '\n'){
+		if(((c >= 'A') && (c <= 'Z')) ||
+			((c >= 'a') && (c <= 'z'))){
+				if(state == OUT){
+					state = IN;
+					++nw;
+				}
+		}
+		else{
 			state = OUT;
 			if(c == '\n')
 				++nl;
-		}
-		else if(state == OUT){
-			state = IN;
-			++nw;
 		}
 	}
 	printf("No. of lines = %d\n"
