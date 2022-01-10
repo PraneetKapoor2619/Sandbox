@@ -1,26 +1,43 @@
 #include<stdio.h>
 
-/* count digits, white space, others*/
+#define IN 1				/* inside a word */
+#define OUT 0				/* outside a word */
+#define MAX_WLENGTH	16		/* maximum length of words supported */
+/* print histogram of length of words in the input*/
 int main(int argc, char **argv)
 {
-	int c, i, nwhite, nother;
-	int ndigits[10];
+	int c, state, current_length;
+	int wlength[MAX_WLENGTH];
 	
-	nwhite = nother = 0;
-	for(i = 0; i < 10; ++i)
-		ndigits[i] = 0;
+	current_length = 0;
+	state = OUT;
+	for(int i = 0; i < MAX_WLENGTH; ++i)
+		wlength[i] = 0;
 	
-	while((c = getchar()) != EOF)
-		if(c >= '0' && c <= '9')
-			++ndigits[c - '0'];
-		else if(c == ' ' || c == '\t' || c == '\n')
-			++nwhite;
-		else
-			++nother;
+	while((c = getchar()) != EOF){
+		if(((c >= 'A') && (c <= 'Z')) ||
+			((c >= 'a') && (c <= 'z'))){
+			if(state == OUT)
+				state = IN;
+			++current_length;
+		}
+		else{
+			if(state == IN){
+				state = OUT;
+				++wlength[current_length - 1];
+				current_length = 0;
+			}
+		}
+	}
 	
-	printf("digits = ");
-	for(i = 0; i < 10; ++i)
-		printf(" %d", ndigits[i]);
-	printf(", white space = %d, other = %d\n", nwhite, nother);
+	/* Now print the histogram */
+	for(int i = 0; i < MAX_WLENGTH; ++i){
+		if(wlength[i] > 0){
+			printf("%4d ", i + 1);
+			for(int j = 0; j < wlength[i]; ++j)
+				printf("|");
+			printf("%d\n", wlength[i]);
+		}
+	}
 	return 0;
 }
