@@ -1,17 +1,26 @@
 #include<stdio.h>
 
-/* print input one word per line*/
+/* count digits, white space, others*/
 int main(int argc, char **argv)
 {
-	int c;
-	while((c = getchar()) != EOF){
-		if(((c >= 'A') && (c <= 'Z')) ||
-			((c >= 'a') && (c <= 'z'))){
-			putchar(c);
-		}
-		else{
-			putchar('\n');
-		}
-	}
+	int c, i, nwhite, nother;
+	int ndigits[10];
+	
+	nwhite = nother = 0;
+	for(i = 0; i < 10; ++i)
+		ndigits[i] = 0;
+	
+	while((c = getchar()) != EOF)
+		if(c >= '0' && c <= '9')
+			++ndigits[c - '0'];
+		else if(c == ' ' || c == '\t' || c == '\n')
+			++nwhite;
+		else
+			++nother;
+	
+	printf("digits = ");
+	for(i = 0; i < 10; ++i)
+		printf(" %d", ndigits[i]);
+	printf(", white space = %d, other = %d\n", nwhite, nother);
 	return 0;
 }
