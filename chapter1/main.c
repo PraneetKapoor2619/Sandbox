@@ -1,6 +1,6 @@
 #include<stdio.h>
 
-int power(int m, int n);
+int power(int, int);
 
 /* test power function */
 int main(int argc, char **argv)
