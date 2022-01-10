@@ -1,27 +1,23 @@
 #include<stdio.h>
 
-#define LOWER 0		/*lower limit of temp*/
-#define UPPER 300	/*upper limit of temp*/
-#define STEP 20		/*step size*/
+int power(int m, int n);
 
-float F_to_C(int);
-
-/* given temperature in fahrenheit, calculate temperature in celsius */
+/* test power function */
 int main(int argc, char **argv)
 {
-	int fahr;
+	int i;
 	
-	for(fahr = LOWER; fahr <= UPPER; fahr = fahr + STEP)
-		printf("%3d\t%6.1f\n", fahr, F_to_C(fahr));
+	for(int i = 0; i < 10; ++i)
+		printf("%d %d %d\n", i, power(2, i), power(-3, i));
 	return 0;
 }
 
-/* 
-Name:	float F_to_C(int)
-Input:	temp in fahrenheit (integer)
-Output:	temp in celsius (float)
-*/
-float F_to_C(int fahr)
+/* power: raise base to nth power; n >= 0; version 2*/
+int power(int base, int n)
 {
-	return (5.0 / 9.0) * (fahr - 32);
+	int p;
+	
+	for(p = 1; n > 0; --n)
+		p = p * base;
+	return p;
 }
