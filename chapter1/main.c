@@ -3,18 +3,17 @@
 #define MAXLENGTH 1024		/* Maximum Length of input allowed */
 
 int readline(char [], int);
-int strip(char [], int);
+void reverse(char [], int);
 
 int main(int argc, char **argv)
 {
-	int l1, l2;
+	int n;
 	char line[MAXLENGTH];
 	
-	while((l1 = readline(line, MAXLENGTH)) > 0){
-		l2 = strip(line, l1);
-		printf("\nOld length: %d"
-				"\nNew length: %d"
-				"\nLine:\n%s", l1, l2, line);
+	while((n = readline(line, MAXLENGTH)) > 0){
+		printf("Old string:\n%s", line);
+		reverse(line, n);
+		printf("Reversed string:%s\n", line);
 	}
 	return 0;
 }
@@ -34,20 +33,13 @@ int readline(char line[], int N)
 	return i;
 }
 
-int strip(char line[], int N)
+void reverse(char s[], int N)
 {
-	int i;
-	if(N == 1){
-		--N;
-		line[N] = '\0';
+	int c, i;
+	
+	for(i = 0; i < N / 2; ++i){
+		c = s[i];
+		s[i] = s[N - 1 - i];
+		s[N - 1 - i] = c;
 	}
-	else{
-		for(i = N - 2; i >= 0 && (line[i] == ' ' || line[i] == '\t'); --i){
-			line[i] = '\n';
-			line[i + 1] = '\0';
-		}
-		N = i + 2;
-	}
-
-	return N;
 }
