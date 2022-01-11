@@ -1,23 +1,23 @@
 #include<stdio.h>
 
-#define MAXLENGTH 1024		/* Maximum Length of input allowed */
+#define MAXLENGTH 80		/* Maximum Length of input allowed */
 
 int readline(char [], int);
-void store(char [], char []);
+void copy(char [], char []);
 
 int main(int argc, char **argv)
 {
-	char line[MAXLENGTH], longest[MAXLENGTH];
-	int current_length, max_length;
+	int l, max;
+	char current_line[MAXLENGTH], longest_line[MAXLENGTH];
 	
-	max_length = 0;
-	while((current_length = readline(line, MAXLENGTH)) > 0){
-		if(current_length > max_length){
-			store(line, longest);
-			max_length = current_length;
+	for(max = 0; (l = readline(current_line, MAXLENGTH)) > 0; ){
+		if(l > max){
+			copy(current_line, longest_line);
+			max = l;
 		}
 	}
-	printf("Longest line is:\n%sIt has %d characters.\n", longest, max_length);
+	
+	printf("The longest line is:\n%s\nit has %d characters.\n", longest_line, max);
 	return 0;
 }
 
@@ -25,24 +25,25 @@ int readline(char line[], int N)
 {
 	int i, c;
 	
-	i = 0;
-	while(	(i < N) &&
-			((c = getchar()) != EOF) &&
-			(c != '\n')){
+	for(i = 0; (c = getchar()) != EOF && (c != '\n'); ++i)
+		if(i < N)
+			line[i] = c;
+	
+	if(c == '\n' && i < N){
 		line[i] = c;
 		++i;
+		line[i] = '\0';
 	}
-	if(c == '\n'){
-		line[i] = c;
-		++i;
-	}
-	line[i] = '\0';
+	else
+		line[N - 1] = '\0';
+
 	return i;
 }
 
-void store(char from[], char to[])
+void copy(char from[], char to[])
 {
 	int i;
+	
 	i = 0;
 	while((to[i] = from[i]) != '\0')
 		++i;
