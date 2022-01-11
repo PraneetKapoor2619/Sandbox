@@ -3,7 +3,7 @@
 #define MAXLENGTH 1024		/* Maximum Length of input allowed */
 
 int readline(char [], int);
-void reverse(char [], int);
+void reverse(char []);
 
 int main(int argc, char **argv)
 {
@@ -11,9 +11,8 @@ int main(int argc, char **argv)
 	char line[MAXLENGTH];
 	
 	while((n = readline(line, MAXLENGTH)) > 0){
-		printf("Old string:\n%s", line);
-		reverse(line, n);
-		printf("Reversed string:%s\n", line);
+		reverse(line);
+		printf("\nReversed string:\n%s", line);
 	}
 	return 0;
 }
@@ -22,10 +21,8 @@ int readline(char line[], int N)
 {
 	int i, c;
 	
-	for(i = 0; (i < N) && (c = getchar()) != EOF && (c != '\n'); ++i)
-		line[i] = c;
-	
-	if(c == '\n'){
+	i = 0;
+	while((c = getchar()) != EOF){
 		line[i] = c;
 		++i;
 	}
@@ -33,13 +30,22 @@ int readline(char line[], int N)
 	return i;
 }
 
-void reverse(char s[], int N)
+void reverse(char s[])
 {
-	int c, i;
+	int begin, end;
+	int c, i, N;
 	
-	for(i = 0; i < N / 2; ++i){
-		c = s[i];
-		s[i] = s[N - 1 - i];
-		s[N - 1 - i] = c;
+	begin = 0;
+	while(s[begin] != '\0'){
+		end = begin;
+		while(s[end] != '\n')
+			++end;
+		N = (end - 1) - begin;
+		for(i = begin; i <= begin + (N / 2); ++i){
+			c = s[i];
+			s[i] = s[(begin + N) - (i - begin)];
+			s[(begin + N) - (i - begin)] = c;
+		}
+		begin = end + 1;
 	}
 }
