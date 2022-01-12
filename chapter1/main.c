@@ -1,51 +1,30 @@
 #include<stdio.h>
 
 #define MAXLENGTH 1024		/* Maximum Length of input allowed */
+#define TABS 4				/* length of a single tab in spaces */
 
-int readline(char [], int);
-void reverse(char []);
+void detab(char [], int);
 
 int main(int argc, char **argv)
 {
-	int n;
 	char line[MAXLENGTH];
 	
-	while((n = readline(line, MAXLENGTH)) > 0){
-		reverse(line);
-		printf("\nReversed string:\n%s", line);
-	}
+	detab(line, MAXLENGTH);
+	printf("\n%s\n", line);
 	return 0;
 }
 
-int readline(char line[], int N)
+void detab(char line[], int N)
 {
-	int i, c;
+	int c, i, s;
 	
-	i = 0;
-	while((c = getchar()) != EOF){
-		line[i] = c;
-		++i;
-	}
-	line[i] = '\0';
-	return i;
-}
-
-void reverse(char s[])
-{
-	int begin, end;
-	int c, i, N;
-	
-	begin = 0;
-	while(s[begin] != '\0'){
-		end = begin;
-		while(s[end] != '\n')
-			++end;
-		N = (end - 1) - begin;
-		for(i = begin; i <= begin + (N / 2); ++i){
-			c = s[i];
-			s[i] = s[(begin + N) - (i - begin)];
-			s[(begin + N) - (i - begin)] = c;
+	for (i = 0; i < N && (c = getchar()) != EOF; ++i)
+		if (c == '\t') {
+			for (s = i; (i - s) < TABS; ++i)
+				line[i] = ' ';
+			--i;
 		}
-		begin = end + 1;
-	}
+		else
+			line[i] = c;
+	line[i] = '\0';
 }
