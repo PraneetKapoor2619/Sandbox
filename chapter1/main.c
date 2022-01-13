@@ -1,72 +1,47 @@
 #include<stdio.h>
 
 #define MAXLENGTH 1024		/* Maximum Length of input allowed */
-#define TABS 4				/* length of a single tab in spaces */
-#define IN 1				/* inside a 'space' chain */
-#define OUT 0				/* outside of a 'space' chain */
+#define MAXCOLUMNS 80		/* maximum number of columns */
 
-void detab(char [], int);
-void entab(char [], int);
-int replace(char [], int, int, char);
+void insertnl(char [], int, int, int);
 
 int main(int argc, char **argv)
 {
+	int i, cnt, c, wlength;
 	char line[MAXLENGTH];
 	
-	entab(line, MAXLENGTH);
+	i = cnt = wlength = 0;
+	while ((c = getchar()) != EOF) {
+		if (c != ' ' && c != '\n')
+			++wlength;
+		else
+			wlength = 0;
+		line[i] = c; 
+		++cnt; 
+		++i;
+		
+		if (cnt == (MAXCOLUMNS + 1)) {
+			insertnl(line, i - wlength, i, '\n');
+			++i;
+			cnt = wlength;
+		}
+	}
+	line[i] = '\0';
+	
+	printf("\n");
+	for (i = 0; i < MAXCOLUMNS; ++i)
+		printf("-");
 	printf("\n%s\n", line);
 	return 0;
 }
 
-void detab(char line[], int N)
+void insertnl(char line[], int si, int ei, int tmp)
 {
-	int c, i, s;
-	
-	for (i = 0; i < N && (c = getchar()) != EOF; ++i)
-		if (c == '\t')
-			i = replace(line, i, i + TABS, ' '); 
-		else
-			line[i] = c;
-	line[i] = '\0';
-}
-
-void entab(char line[], int N)
-{
-	int c, cnt, i, ns, nt, state;
-	
-	state = OUT;
-	for (i = 0; i < N && (c = getchar()) != EOF; ++i)
-		if (c == ' ') {
-			if (state == OUT) {
-				state = IN;
-				cnt = 0;
-			}
-			++cnt;
-		}
-		else {
-			if (state == IN) {
-				state = OUT;
-				nt = cnt / TABS;			/* gives number of tabs */
-				ns = cnt - (nt * TABS);		/* gives number of spaces */
-				i = i - cnt;
-				i = replace(line, i, i + nt, '\t');
-				i = replace(line, i, i + ns, ' ');
-				++i;
-			}
-			line[i] = c;
-		}
-	line[i] = '\0';
-}
-
-int replace(char line[], int i, int end, char c)
-{
-	if (i != end) {
-		while (i < end) {
-			line[i] = c;
-			++i;
-		}
-		return (i - 1);
+	line[ei] = ' ';
+	while (si <= ei) {
+		line[si] = line[si] + tmp;
+		tmp = line[si] - tmp;
+		line[si] = line[si] - tmp;
+		++si;
 	}
-	else
-		return i;
 }
