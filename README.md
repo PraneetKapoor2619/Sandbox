@@ -1,5 +1,5 @@
-# The C Programming Language (2nd Ed) by Brian Kernighan and Dennis Ritchie  
+# SANDBOX  
+## A place where I put all the junk...  
   
-In this repository, I have included the codes I wrote while studying K&R C. I have already coded in C, C++, ASM, and Python for most of life at this point. However, I have always felt that I was missing out on something by not doing C language from this legendary book. So, here are the codes which I wrote while re-learning C language.  
-  
-However, the codes presented here are not just restricted to K&RC. Also included are some of my "experiments" which help me to understand the language better.
+Nobody every writes the perfect code in one single shot. Actually, one can write a perfect code in one single shot. However, every now and then I experiment, do little tests, and tinker with stuff which eventually gives rise to a project which everybody sees. This repository contains all those silly things I do, those "behind the screen moments" which nobody who gets to see the final result knows about.  
+If I will make a separate repo. for all such little experiments, then there is going to a big mess. There is already a big mess, as one can see from my GitHub profile. And I do not wish to create any more. So, every other shit will happen in this repo, and only later, if deemed worthy will get known to the world. :-)  
