@@ -1,22 +1,25 @@
 #include<stdio.h>
 
-int atoi(char []);
+#define MAXLENGTH 1024
+int lower(char);
 
 int main(int argc, char **argv)
 {
-	char c[] = "456 4";
-	int n = atoi(c);
-	printf("%d\n", n);
+	int i, c;
+	char line[MAXLENGTH];
+	
+	for (i = 0; i < MAXLENGTH && (c = getchar()) != EOF; ++i)
+		line[i] = lower(c);
+	line[i] = '\0';
+	printf("%s\n", line);
 	return 0;
 }
 
-/* atoi: convert s to integer */
-int atoi(char s[])
+/* lower: converts c to lower case; ASCII only */
+int lower(char c)
 {
-	int i, n;
-	
-	n = 0;
-	for(i = 0; s[i] >= '0' && s[i] <= '9'; ++i)
-		n = (10 * n) + (s[i] - '0');
-	return n;
+	if (c >= 'A' && c <= 'Z')
+		return c - 'A' + 'a';
+	else
+		return c;
 }
