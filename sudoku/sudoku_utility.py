@@ -1,6 +1,13 @@
 import re
 from os import system
 
+def islist(cell):
+	try:
+		len(cell)
+		return True
+	except:
+		return False
+
 def buildgrid(filename):
 	fp = open(filename, 'r')
 	grid = []

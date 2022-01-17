@@ -2,53 +2,27 @@ from sudoku_utility import *
 import sys
 import time
 
+grid = []		#contains the given numbers and the list of possible values for each cell
+iterable = []		#contains tuples which have the indices of cells which are iterable
 solution = []		#this one will store all the solutions
 
-def solve(grid, sol, r, c):
-	global solution
-	if(len(solution) > 0):
-		return
-	for i in range(r, 9):
-		for j in range(c, 9):
-			print(i, j)
-			time.sleep(0.2)
-			'''
-			either the last cell in the grid will contain possibilites, or it will not contain any
-			if list of possibilites exist, go through each of them, and if r = 9 and c = 9, then check whether you have reached a solution or not
-			if it is not a list of possibilites, then simply assign the number to sol . if r = 9 and c = 9, then check whether you have reached a solution or not.
-			'''
-			try:
-				for possibility in grid[i][j]:
-					sol[i][j] = possibility
-					if(r == 8 and c == 8):
-						if(checkgrid(sol) == True):
-							solution.insert(len(solution), sol)
-						else:
-							if(possibility == grid[i][j][len(grid[i][j])]):
-								return
-							else:
-								continue
-					else:
-						if(j < 8):
-							solve(grid, sol, i, j + 1)
-						elif(i < 8):
-							solve(grid, sol, i + 1, 0)
-						else:
-							return
-			except:
-				sol[i][j] = grid[i][j]
-				if(r == 8 and c == 8):
-					if(checkgrid(sol) == True):
-						solution.insert(len(solution), sol)
-					else:
-						return
-				else:
-					if(j < 8):
-						solve(grid, sol, i, j + 1)
-					elif(i < 8):
-						solve(grid, sol, i + 1, 0)
-					else:
-						return
+def solve(sol, index):
+	global grid, iterable, solution
+	i, j = iterable[index]
+	print(iterable[index], grid[i][j])
+	for tmp in grid[i][j]:
+		print(grid[i][j])
+		sol[i][j] = tmp
+		if(index == (len(iterable) - 1)):
+			if(checkgrid(sol)):
+				solution.insert(len(solution), sol)
+			else:
+				continue
+		else:
+			solve(sol, index + 1)
+			print("I have returned son", iterable[index])
+	print("On the path to return")
+	return
 
 if __name__ == "__main__":
 	sys.tracebacklimit = 0
@@ -62,8 +36,16 @@ if __name__ == "__main__":
 			grid = fillblock(grid, block)
 		
 		printgrid(grid)
+		#form a list of tuples containing the indices of cells which are grids
+		for i in range(0, 9):
+			for j in range(0, 9):
+				if(islist(grid[i][j]) == True):
+					iterable.insert(len(iterable), (i, j))
+				else:
+					continue
+		print("\n",iterable, "\n")
 		#now use brute force through the possibilites to find the solution
-		solve(grid, sol, 0, 0)
+		solve(sol, 0)
 		for i in range(len(solution)):
 			printgrid(solution[i])
 		
