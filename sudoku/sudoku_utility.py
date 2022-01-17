@@ -17,10 +17,10 @@ def buildgrid(filename):
 		grid.insert(len(grid), [int(i) for i in extr])
 	return grid
 
-def printgrid(grid):
+def printgrid(g):
 	for i in range(0, 9):
 		for j in range(0, 9):
-			print(grid[i][j], end = " ")
+			print(g[i][j], end = " ")
 		print("")
 	#system("PAUSE")
 
@@ -109,6 +109,6 @@ def checkgrid(grid):
 	#printgrid(grid)
 	for num in range(1, 10):
 		if(checknum(grid, num) == False):
-			print("Test Failed!!")
+			#print("Test Failed!!")
 			return False
 	return True
