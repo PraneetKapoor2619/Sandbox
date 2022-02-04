@@ -2,6 +2,7 @@ source_files := $(wildcard *.s)
 object_files := $(patsubst %.s, %.o, $(source_files))
 
 all: $(object_files)
+	clear
 	x86_64-elf-ld -n -T linker.ld $(object_files) -o kernel.bin
 	mkdir -p isodir/boot/grub
 	cp -p kernel.bin isodir/boot/
