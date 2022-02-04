@@ -2,19 +2,18 @@ section .data
 	vga_start equ 0x0b8000
 	vga_end equ 0x0c0000
 	vga_ptr dd 0x0b8000
+	;string and its length
+	string db "Hello, world!!"
+	len equ $ - string
 
 section .text
 bits 32
 global start
 start:
 	; print `OK`
-	mov dword [0xb8000], 0x2f4b2f4f
-	;call clear_screen
-	;string and its length
-	string db "Hello, world!!", 0x0a
-	len equ $ - string
+	call clear_screen
 	;print the string
-	;call printf
+	call printf
 	hlt
 
 ;SUB: clear_screen 
