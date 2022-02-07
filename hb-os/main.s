@@ -1,15 +1,18 @@
 section .data
 	vga_start equ 0x0b8000
 	vga_end equ 0x0c0000
-	vga_col equ 0x50
-	vga_ptr dd 0x0b8000
+	vga_col equ 0x50	;total number of columns is (80)10 = 0x50
+	vga_row equ 0x19	;total number of rows is (25)10 = 0x19
+	
+	;(row), (column)
+	vga_ptr dd 0x00, 0x00
+	
+	;(string base address), (length)
+	str_ptr dd 0x00, 0x00
+	
 	;string and its length
-	string1 db "Hello world!!", 0x0a
+	string1 db "Hello world!!"
 	len1 equ $ - string1
-	string2 db "This is P.K.'s Personal Operating System!!", 0x0a, 0x0a
-	len2 equ $ - string2
-	string3 db "Welcome, children!!", 0x0a
-	len3 equ $ - string3
 
 section .text
 bits 32
@@ -18,14 +21,8 @@ start:
 	; print `OK`
 	call clear_screen
 	;print the string
-	mov eax, len1
-	mov ecx, string1
-	call printf
-	mov eax, len2
-	mov ecx, string2
-	call printf
-	mov eax, len3
-	mov ecx, string3
+	mov eax, string1
+	mov ecx, len1
 	call printf
 	hlt
 
@@ -41,46 +38,51 @@ clear_screen:
 	add ebx, 0x02
 	cmp ebx, vga_end
 	jb .1
+	mov dword [vga_ptr], 0x00
 	ret
 
 ;SUB: write_screen
 ;PURPOSE: write a string to the screen
 printf:
-	add eax, ecx
-	mov ebx, dword [vga_ptr]
-.1:	;operation start
-	cmp byte [ecx], 0x0a
-	je .3
-	mov dl, byte [ecx]
-	mov dh, 0x0f
-	mov word [ebx], dx
-	;operation end
-.2	add ebx, 0x02
-	inc ecx
-	cmp eax, ecx
-	jne .1
-	mov dword [vga_ptr], ebx
-	ret
-	
-.3:
-	mov dl, 0x00
-	mov dh, 0x0f
-	mov word [ebx], dx
+	mov dword [str_ptr], eax
+	mov dword [str_ptr + 4], ecx
+
+.1:	;Calculation of effective address
+	;The formula is: 
+	;[row][col] = (base_address + 0x50 * row + 0x02 * col)
+	;if the number of columns is 80, then increment row ptr
+	mov ebx, vga_start
+	mov eax, dword [vga_ptr + 4]
+	mov ecx, 0x02
+	mov edx, 0x00
+	mul ecx
+	cmp eax, 0xa0
+	je .2
+	jl .3
+
+.2:	;incase of col > 80, set col = 0 and increment row pointer	
+	inc dword [vga_ptr]
+	mov dword [vga_ptr + 4], 0x00
+	mov eax, 0x00
+
+.3:	
+	inc dword [vga_ptr + 4]
 	push eax
-	mov eax, ebx
-	sub eax, vga_start		;total columns = vga_ptr - vga_start
-	push ebx
+	mov eax, dword [vga_ptr]
+	mov ecx, vga_row
 	mov edx, 0x00
-	mov ebx, 0x02			;because 1 column = (character + bgfg)
-	div ebx				;eax = total columns
-	mov edx, 0x00
-	mov ebx, vga_col
-	div ebx				;divide total col by no. of col
-	pop ebx
+	mul ecx
+	add ebx, eax
 	pop eax
-	cmp edx, 0x00			;if total col % 0x50, then edx = 0x00
-	je .4				;first fix the ptr
-	add ebx, 0x02
-	jmp .3				;check again
-.4:	sub ebx, 0x02
-	jmp .2				;now return to print the rest of string
+	add ebx, eax
+
+.4:	;with the effective address now available, we now have to print the string
+	mov dh, 0x0f
+	mov eax, dword [str_ptr]
+	mov dl, byte [eax]
+	mov word [ebx], dx
+	inc dword [str_ptr]
+	dec dword [str_ptr + 4]
+	cmp dword [str_ptr + 4], 0x00
+	jg .1
+	ret
