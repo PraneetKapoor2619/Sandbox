@@ -6,5 +6,5 @@
 *.bin
 *.hex
 *.img
-
-
+*.exe
+*.bak

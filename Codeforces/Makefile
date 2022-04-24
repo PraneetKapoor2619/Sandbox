@@ -1,4 +1,4 @@
-path := 158A/
+path := 50A/
 path := $(path)main.cpp
 $(info path=$(path))
 
