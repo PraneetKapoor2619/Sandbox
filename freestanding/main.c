@@ -1,15 +1,5 @@
 #include <stdio.h>
 
-
-typedef char * a_list;
-#define a_start(ap,x) ((void)(ap = (a_list)&x + sizeof(x)))
-#define a_arg(ap,type) (*((type *)ap++))
-#define a_end(ap) ((void)(ap = 0))
-
-
-
-void __cdecl clerk (char *, int,...);
-
 void main(void)
 {
 	printf("char: %d\n"
@@ -20,16 +10,20 @@ void main(void)
 		"unsigned short int: %d\n",
 		sizeof(char), sizeof(int), sizeof(short int), sizeof(unsigned char),
 		sizeof(unsigned int), sizeof(unsigned short int));
-	clerk("Hello jicky", 2, 5, 'P');
-}
-
-void clerk(char *buf, int count,...)
-{
-	a_list ptr;
-	a_start(ptr, count);		/* last parameter to be passed to va_start */
-	printf("%s", buf);
-	for (int i = 1; i <= count; ++i) {
-		printf("%d ", a_arg(ptr, int));
+	int x = 3333234;
+	int copy, q;
+	copy = x;
+	int flag = 0;
+	char ch = '0';
+	for (int i = 1e+09; i >= 1; i /= 10) {
+		q = copy / i;
+		copy %= i;
+		if (q > 0 && flag == 0) {
+			flag = 1;
+		}
+		if (flag == 1) {
+			printf("%c", ch + q);
+		}
 	}
-	a_end(ptr);
+	printf("\n");
 }
