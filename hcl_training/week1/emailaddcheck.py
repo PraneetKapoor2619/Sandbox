@@ -7,6 +7,8 @@ def fun(s):
                 sign2 = s.index('.')
         except:
                 return False
+        if (s.count('@') != 1) : return False
+        if (s.count('.') != 1) : return False
         if (abs(sign1 - sign2) == 1) : return False
         if (sign2 <= sign1) : return False
         username = s.split('@')
@@ -15,7 +17,8 @@ def fun(s):
         websitename = webext.split('.')
         extension = websitename[1]
         websitename = websitename[0]
-
+        if(len(username) == 0 or len(websitename) == 0 or len(extension) > 3): 
+                return False
         #username @ websitename . extension
         for ch in username:
                 if (not(ch.isalnum() or (ch == '_' or ch == '-'))):
