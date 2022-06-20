@@ -1,7 +1,5 @@
 def mutate_string(string, position, character):
-        str_arr = list(string)
-        str_arr[position] = character
-        return "".join(str_arr)
+        return string[:position] + character + string[position + 1:]
 
 if __name__ == '__main__':
         s = input()
