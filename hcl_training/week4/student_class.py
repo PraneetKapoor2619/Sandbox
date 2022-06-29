@@ -7,7 +7,7 @@ class student:
         def __init__(self, name):
                 self.__name = name
                 self.__GPA = float()
-                self.__clubs = []
+                self.__clubs = set()
                 self.__status = True
                 print("Student name: {:s} with active status has been instantiated.".format(self.__name))
         
@@ -33,7 +33,7 @@ class student:
                 self.__GPA = GPA
 
         def add_club(self, club):
-                self.__clubs.append(club)
+                self.__clubs.add(club)
         
         def change_status(self):
                 self.__status = not (self.__status)
