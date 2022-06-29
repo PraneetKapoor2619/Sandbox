@@ -34,6 +34,9 @@ class student:
 
         def add_club(self, club):
                 self.__clubs.add(club)
+
+        def remove_club(self, club):
+                self.__clubs.discard(club)
         
         def change_status(self):
                 self.__status = not (self.__status)
@@ -45,7 +48,7 @@ class student:
                 if (len(self.__clubs) == 0) : print("None", end = "")
                 else :
                         for club in self.__clubs :
-                                print(club, end = " ")
+                                print(club, end = ", ")
                 print("\nStatus: ", end = "")
                 if (self.__status == True) :
                         print("Active")
@@ -56,9 +59,11 @@ marty = student("Marty McFly")
 marty.set_GPA(3.8)
 marty.change_status()
 marty.add_club("Rock Band")
+marty.add_club("Nuisance Creator")
 marty.print_details()
 
 record = marty.get_all()
 record[0] = "Brad Pitt"
 print(record)
+marty.remove_club("Nuisance Creator")
 marty.print_details()
