@@ -13,5 +13,6 @@ if __name__ == "__main__" :
         Y = [11, 12, 15]
         print("X:", X, "\nY:", Y)
 
-        Y += X
+        # using list comprehension to add each element of a list to another
+        Y = [Y[i] if i < len(Y) else X[i - len(Y)] for i in range(len(X) + len(Y))]
         print("\nY after inclusion of elements from X:", Y) 
