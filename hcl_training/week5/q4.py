@@ -1,3 +1,8 @@
+"""
+Write a python program to create Employee class with id, name and email as instance
+variables and their objects to be serialized.
+"""
+
 import pickle
 
 class Employee:
