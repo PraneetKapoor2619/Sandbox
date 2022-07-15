@@ -6,7 +6,7 @@ S = input()
 vowels = "aeiouAEIOU"
 consonants = "qwrtypsdfghjklzxcvbnmQWRTYPSDFGHJKLZXCVBNM"
 
-match_list = re.findall(r"(?<=[%s])([%s]{2,}(?=[%s]))" % (consonants, vowels, consonants), S)
+match_list = re.findall(r"(?<=[%s])([%s]{2,})(?=[%s])" % (consonants, vowels, consonants), S)
 
 if len(match_list) :
         for match in match_list :
