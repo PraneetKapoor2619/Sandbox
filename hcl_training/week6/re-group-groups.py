@@ -1,11 +1,10 @@
 import re
 
-S = "..12345678910333111213141516171820212223"
-match_list = re.findall(r"([a-zA-Z0-9])\1+", S) 
-print(match_list)
+S = input()
 
-match = re.match(r"([.a-zA-Z0-9])\1+", S)
-try :
-        print(match.groups())
-except :
-        print(None)
+match_list = re.findall(r"([a-zA-Z0-9])\1+", S) 
+
+if len(match_list) > 0 :
+        print(match_list[0][0])
+else :
+        print(-1)
