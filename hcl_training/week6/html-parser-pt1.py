@@ -27,3 +27,4 @@ if __name__ == "__main__" :
 
         parser = BeautifulParser()
         parser.feed(buffer)
+        parser.close()
