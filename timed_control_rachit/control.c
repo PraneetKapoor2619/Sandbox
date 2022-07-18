@@ -26,10 +26,15 @@ int control()
 {
         static int TARGET_SET_FLAG;
         static int target;
-        int interval = 1;
+        int interval = 20;
 
         if (TARGET_SET_FLAG == 0) {
                 target = minutes() + interval;
+
+                if (target >= 60) {
+                        target -= 60;
+                }
+
                 printf("Target set -> %d\n\n", target);
                 TARGET_SET_FLAG = 1;               
         }
