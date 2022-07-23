@@ -1,17 +1,20 @@
 import threading
 import time
 
+
 def greeting_1():
 	
 	for i in range(6) :
 		time.sleep(0.5)
 		print("Hello")
 
+
 def greeting_2():
 
 	for i in range(6) :
 		time.sleep(0.5)
 		print("World")
+
 
 if __name__ == "__main__" :
 
