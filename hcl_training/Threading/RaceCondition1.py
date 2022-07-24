@@ -5,15 +5,13 @@ import threading
 def function1():
 
 	for i in range(100000) :
-		if (i % 10 == 0) :
-			print("1", end = " ")
+		print("1", end = " ")
 
 
 def function2():
 
 	for i in range(100000) :
-		if (i % 10 == 0) :
-			print("2", end = " ")
+		print("2", end = " ")
 
 
 if __name__ == "__main__" :
