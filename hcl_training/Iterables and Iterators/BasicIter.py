@@ -15,8 +15,8 @@ To generate an iterator for a list, use iter() method. Then pass this object as 
 the next() built-in function.
 """
 
-iterable_object = iter(list1)
-print(type(iterable_object))
+iterator = iter(list1)
+print(type(iterator))
 
 while True :
-	print(next(iterable_object))
+	print(next(iterator))
