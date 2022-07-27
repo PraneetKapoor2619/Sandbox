@@ -3,6 +3,7 @@ def isNegative(func):
 		nonlocal func
 		if (number < 0) : 
 			raise ValueError("Value cannot be negative")
+		print(number)
 		return func(number)
 	return check
 
