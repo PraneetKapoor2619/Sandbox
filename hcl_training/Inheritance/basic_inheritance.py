@@ -24,6 +24,22 @@ class Shape():
 	def get_perimeter(self):
 		pass
 
+	def __eq__(self, obj):
+		result = isinstance(self, Shape) and isinstance(obj, Shape)
+		result = result and (self.__type == obj.__type)
+		return result
+
+	def __add__(self, obj):
+		result = isinstance(self, Shape) and isinstance(obj, Shape)
+		if result :
+			return self.get_area() + obj.get_area()
+		return False
+	
+	def __sub__(self, obj):
+		result = isinstance(self, Shape) and isinstance(self, Shape)
+		if result :
+			return abs(self.get_area() - obj.get_area())
+		return False
 
 class Rectangle(Shape):
 	def __init__(self, length, breadth, color = "Blue"):
@@ -94,3 +110,23 @@ if __name__ == "__main__" :
 	
 	print("\nFor Circle:\nPerimeter:", circ1.get_perimeter(),\
 	"\nArea:", circ1.get_area())
+
+	print(circ1 == rect1)
+
+	try :
+		print(circ1 - 1)
+	except (BaseException) as E :
+		print(E)
+
+	print(rect1 - circ1)
+	print(rect1 + circ1)
+
+	try :
+		print(rect1 + circ1 + 10)
+	except (BaseException) as E :
+		print(E)
+	
+	try :
+		print(100 + rect1 + circ1)
+	except (BaseException) as E :
+		print(E)
