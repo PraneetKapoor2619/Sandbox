@@ -16,7 +16,8 @@ if __name__ == "__main__" :
 				index = i
 				break
 		end_time = time.time()
+		print(element, "found at index", index, "in", end_time - start_time, "seconds")
 		time_array.append(end_time - start_time)
 
-	print("Average time required in finding an element:",\
+	print("Average time required in finding an element using linear search:",\
 	sum(time_array) / len(time_array))
