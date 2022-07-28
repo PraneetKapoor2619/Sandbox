@@ -35,6 +35,29 @@ class Node:
 			else :
 				self.get_right_child().insert(node)
 
+	def lookup(self, value):
+		if (value != self.data) and (self.left is None)\
+		 and (self.right is None) :
+			return None
+		if (value < self.data) :
+			return self.get_left_child().lookup(value)
+		elif (value == self.data) :
+			return self
+		elif (value > self.data) :
+			return self.get_right_child().lookup(value)
+
+	def min(self):
+		if (self.left is None) :
+			return self
+		else :
+			return self.left.min()
+	
+	def max(self):
+		if (self.right is None) :
+			return self
+		else :
+			return self.right.max()
+
 	def print_node(self):
 		print(self.data, end = " ")
 	
@@ -61,3 +84,11 @@ if __name__ == "__main__" :
 	Head.inorder_print()
 	Head.get_left_child().get_data()
 	print()
+
+	print(Head.lookup(41))
+	print(Head.lookup(14))
+	print(Head.lookup(13).get_data())
+	print()
+	
+	print(Head.min().get_data())
+	print(Head.max().get_data())
