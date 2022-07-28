@@ -23,7 +23,6 @@ class Node:
 		self.data = data
 
 	def insert(self, node):
-		print(self.get_data(), node.get_data())
 		if (node.get_data() <= self.get_data()) :
 			if (self.get_left_child() == None) :
 				self.set_left_child(node)
@@ -69,26 +68,68 @@ class Node:
 
 		if (self.get_right_child() is not None) :
 			self.get_right_child().inorder_print()
+	
+	def BFT(self):
+		path = []
+
+		queue = MyQueue()
+		queue.enqueue(self)
+
+		while len(queue) > 0 :
+			#print(queue.print_queue())
+			current = queue.dequeue()
+
+			path.append(current.data)
+
+			if current.get_left_child() != None :
+				queue.enqueue(current.get_left_child())
+			
+			elif current.get_right_child() != None :
+				queue.enqueue(current.get_right_child())
+		
+		return path
+
+
+class MyQueue:
+
+	def __init__(self):
+		self.queue = []
+	
+	def enqueue(self, obj):
+		self.queue.append(obj)
+	
+	def dequeue(self):
+		return self.queue.pop(0)
+
+	def __len__(self):
+		return len(self.queue)
+	
+	def isEmpty(self):
+		return len(self) == 0
+	
+	def peek(self):
+		if self.isEmpty() :
+			raise Exception("Nothing to peek")
+		
+		return self.queue[0]
+	
+	def print_queue(self):
+		print(self.queue)
 
 
 if __name__ == "__main__" :
 	Head = Node(12)
-	Head.insert(Node(11))
-	Head.insert(Node(13))
 	Head.insert(Node(9))
-	Head.insert(Node(15))
+	Head.insert(Node(5))
+	Head.insert(Node(8))
+	Head.insert(Node(10))
 	Head.insert(Node(16))
+	Head.insert(Node(15))
+	Head.insert(Node(19))
+	Head.insert(Node(18))
 	Head.insert(Node(20))
-	Head.insert(Node(14))
 
 	Head.inorder_print()
-	Head.get_left_child().get_data()
 	print()
 
-	print(Head.lookup(41))
-	print(Head.lookup(14))
-	print(Head.lookup(13).get_data())
-	print()
-	
-	print(Head.min().get_data())
-	print(Head.max().get_data())
+	print(Head.get_right_child().BFT())
