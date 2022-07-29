@@ -21,115 +21,113 @@ class Node:
 	
 	def set_data(self, data):
 		self.data = data
-
-	def insert(self, node):
-		if (node.get_data() <= self.get_data()) :
-			if (self.get_left_child() == None) :
-				self.set_left_child(node)
-			else :
-				self.get_left_child().insert(node)
-		elif (node.get_data() > self.get_data()) :
-			if (self.get_right_child() == None) :
-				self.set_right_child(node)
-			else :
-				self.get_right_child().insert(node)
-
-	def lookup(self, value):
-		if (value != self.data) and (self.left is None)\
-		 and (self.right is None) :
-			return None
-		if (value < self.data) :
-			return self.get_left_child().lookup(value)
-		elif (value == self.data) :
-			return self
-		elif (value > self.data) :
-			return self.get_right_child().lookup(value)
-
-	def min(self):
-		if (self.left is None) :
-			return self
-		else :
-			return self.left.min()
 	
-	def max(self):
-		if (self.right is None) :
-			return self
-		else :
-			return self.right.max()
-
 	def print_node(self):
-		print(self.data, end = " ")
+		print(self.data)
+
+
+def BST_insert(head, node):
+	if (head is None) :
+		return node
 	
-	def inorder_print(self):
-		if (self.get_left_child() is not None) :
-			self.get_left_child().inorder_print()
+	if (node.get_data() <= head.get_data()) :
+		head.set_left_child(BST_insert(head.get_left_child(), node))
+	elif (node.get_data() > head.get_data()) :
+		head.set_right_child(BST_insert(head.get_right_child(), node))
+	
+	return head
+
+
+def BST_print_inorder(head):
+	if (head.get_left_child() is not None) :
+		BST_print_inorder(head.get_left_child())
+	
+	head.print_node()
+
+	if (head.get_right_child() is not None) :
+		BST_print_inorder(head.get_right_child())
+
+
+def BST_max(head):
+	if (head.get_right_child() is not None) :
+		return BST_max(head.get_right_child())
+	else :
+		return head.get_data()
+
+
+def BST_min(head):
+	if (head.get_left_child() is not None) :
+		return BST_min(head.get_left_child())
+	else :
+		return head.get_data()
+
+
+def BST_lookup(head, data):
+	if (head.get_data() == data) :
+		return head
+	else :
+		if (data < head.get_data()) :
+			if (head.get_left_child()) :
+				return BST_lookup(head.get_left_child(), data)
+			else : 
+				return None
+		elif (data > head.get_data()) :
+			if (head.get_right_child()) :
+				return BST_lookup(head.get_right_child(), data)
+			else :
+				return None
+
+
+def BST_BFS(head):
+	path = []
+	Q = []
+
+	Q.append(head)
+	while len(Q) > 0 :
+		node = Q.pop(0)
+		path.append(node.data)
+
+		if node.get_left_child() is not None :
+			Q.append(node.get_left_child())
 		
-		self.print_node()
+		if node.get_right_child() is not None :
+			Q.append(node.get_right_child())
+	return path
 
-		if (self.get_right_child() is not None) :
-			self.get_right_child().inorder_print()
+
+def BFT_DFS(head, stack = []):
+	stack.append(head.get_data())
+
+	if (head.get_left_child() is not None) :
+		BFT_DFS(head.get_left_child(), stack)
+	if (head.get_right_child() is not None) :
+		BFT_DFS(head.get_right_child(), stack)
 	
-	def BFT(self):
-		path = []
-
-		queue = MyQueue()
-		queue.enqueue(self)
-
-		while len(queue) > 0 :
-			#print(queue.print_queue())
-			current = queue.dequeue()
-
-			path.append(current.data)
-
-			if current.get_left_child() != None :
-				queue.enqueue(current.get_left_child())
-			
-			elif current.get_right_child() != None :
-				queue.enqueue(current.get_right_child())
-		
-		return path
-
-
-class MyQueue:
-
-	def __init__(self):
-		self.queue = []
-	
-	def enqueue(self, obj):
-		self.queue.append(obj)
-	
-	def dequeue(self):
-		return self.queue.pop(0)
-
-	def __len__(self):
-		return len(self.queue)
-	
-	def isEmpty(self):
-		return len(self) == 0
-	
-	def peek(self):
-		if self.isEmpty() :
-			raise Exception("Nothing to peek")
-		
-		return self.queue[0]
-	
-	def print_queue(self):
-		print(self.queue)
+	return stack
 
 
 if __name__ == "__main__" :
 	Head = Node(12)
-	Head.insert(Node(9))
-	Head.insert(Node(5))
-	Head.insert(Node(8))
-	Head.insert(Node(10))
-	Head.insert(Node(16))
-	Head.insert(Node(15))
-	Head.insert(Node(19))
-	Head.insert(Node(18))
-	Head.insert(Node(20))
+	BST_insert(Head, Node(9))
+	BST_insert(Head, Node(5))
+	BST_insert(Head, Node(8))
+	BST_insert(Head, Node(10))
+	BST_insert(Head, Node(16))
+	BST_insert(Head, Node(15))
+	BST_insert(Head, Node(19))
+	BST_insert(Head, Node(18))
+	BST_insert(Head, Node(20))
 
-	Head.inorder_print()
+	BST_print_inorder(Head)
+	print(BST_max(Head))
+	print(BST_min(Head))
+
 	print()
+	print(BST_lookup(Head, 16).get_data())
+	print(BST_lookup(Head, 13))
 
-	print(Head.get_right_child().BFT())
+	print()
+	print(BST_BFS(Head))
+
+	print()
+	print(BFT_DFS(Head))
